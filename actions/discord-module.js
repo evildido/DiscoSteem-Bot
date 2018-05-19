@@ -13,7 +13,7 @@ module.exports = {
   reaction: function (reaction, user, err) {
     try {
       if (reaction.emoji.name === config.checkEmoji) {
-        if (user.id === roleID) {
+        if (roleID.some((e) => { return e == user.id})) {
           data = reaction.message.embeds[0].url
           if (data.startsWith("https://")) {
             data = data.split("/")
