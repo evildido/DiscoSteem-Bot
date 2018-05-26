@@ -12,11 +12,12 @@ bot.on("ready", () => {
   bot.user.setActivity('Stream Steem');
   streamOp.stream();
 });
-
+// Remove kill function
+/*
 bot.setTimeout (function () {
   process.exit(1) // Restart
-}, 1 * 1800000);
-
+}, 1 * 10000);
+*/
 bot.on("message", async message =>
 {
   const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
@@ -76,6 +77,7 @@ bot.on("message", async message =>
 });
 
 bot.on("messageReactionAdd", (reaction, user) => {
+  console.log("in messageReactionAdd")
   return cmd.checkReaction(reaction,user);
 });
 
