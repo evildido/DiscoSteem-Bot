@@ -186,7 +186,7 @@ module.exports = {
       if (err) {
         console.log(err);
       } else {
-        console.log("Upvote done ! " + result);
+        console.log("Upvote done ! @",author,'/',permlink);
       }
     });
   },
@@ -335,3 +335,5 @@ module.exports = {
     })();
   }
 }
+
+bot.on("error", (err) => console.error(err));
