@@ -212,3 +212,5 @@ module.exports = {
     }
   }
 }; //End
+
+bot.on("error", (err) => console.error(err));
