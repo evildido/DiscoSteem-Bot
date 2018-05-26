@@ -78,7 +78,7 @@ function stream() {
     console.log('Stream error:', err.message, 'with', nodes[index]);
     index = ++index === nodes.length ? 0 : index;
     //stop streamOperation
-    streamOp();
+    streamOps();
     // restart the function
     stream();
   });
