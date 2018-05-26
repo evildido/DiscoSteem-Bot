@@ -87,4 +87,4 @@ function stream() {
 exports.stream = stream;
 
 
-bot.on("error", (err) => console.error(err));
+bot.on("error", (err) => console.log(err));

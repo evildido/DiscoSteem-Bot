@@ -11,6 +11,7 @@ bot.login(config.token);
 module.exports = {
   // Processing of data collected via the reaction event
   reaction: function (reaction, user, err) {
+    console.log("in reaction")
     try {
       if (reaction.emoji.name === config.checkEmoji) {
         if (roleID.some((e) => { return e == user.id})) {
@@ -213,4 +214,4 @@ module.exports = {
   }
 }; //End
 
-bot.on("error", (err) => console.error(err));
+bot.on("error", (err) => console.log(err));
