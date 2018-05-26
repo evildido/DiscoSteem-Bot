@@ -16,7 +16,7 @@ function stream() {
   return new Promise((resolve, reject) => {
     console.log('Connected to', nodes[index]);
 
-    steem.api.streamOperations((err, operation) => {
+    streamOps=steem.api.streamOperations((err, operation) => {
       if(err) return reject(err);
 
       // Check all posts published on the steem blockchain
@@ -36,10 +36,12 @@ function stream() {
               content.getContent(author, permlink, config.principalChan);
             }
           }
+        
         } catch (err) {
           console.log("Error : " + err);
           return;
         }
+        
       } else if (operation[0] == "vote") {  // Check all votes from steem blockchain
         let voter = operation[1].voter,
           author = operation[1].author,
@@ -75,8 +77,14 @@ function stream() {
   }).catch(err => {
     console.log('Stream error:', err.message, 'with', nodes[index]);
     index = ++index === nodes.length ? 0 : index;
+    //stop streamOperation
+    streamOp();
+    // restart the function
     stream();
   });
 }
 
 exports.stream = stream;
+
+
+bot.on("error", (err) => console.error(err));
