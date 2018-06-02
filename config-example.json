@@ -15,5 +15,6 @@
   "wif" : "YOUR PRIVATE POSTING KEY",
   "voter" : ["YOUR STEEM USERNAME"],
   "trackerVoter" : "@ OF THE ACCOUNT TO BE TRACKED ",
-  "tagTrackerVoter" : "fr"
+  "tagTrackerVoter" : "fr",
+  "comment": false
 }
