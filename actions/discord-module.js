@@ -12,7 +12,6 @@ module.exports = {
   // Processing of data collected via the reaction event
   reaction: function (reaction, user, err) {
       (async function() {
-      console.log("in reaction")
       try {
         if (reaction.emoji.name === config.checkEmoji) {
           if (roleID.some((e) => { return e == user.id})) {
