@@ -6,6 +6,7 @@ const wif = config.wif;
 const weight = config.weightVote;
 const voter = config.voter;
 const bot = new Discord.Client();
+var fs = require("fs");
 
 var redFish = 999999,
   minnow = 9999999,
@@ -181,13 +182,21 @@ module.exports = {
 
   // Upvote function
   upvote: function (author, permlink) {
-    author = author.substring(1)
-    steem.broadcast.vote(wif, voter, author, permlink, weight, function (err, result) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("Upvote done ! @",author,'/',permlink);
-      }
+    return new Promise(resolve => {
+      author = author.substring(1)
+     
+
+      steem.broadcast.vote(wif, voter, author, permlink, weight, function (err, result) {
+        if (err) {
+          console.log(err.message)
+          resolve(false);
+        } else {
+
+          console.log("Upvote done ! @",author,'/',permlink);
+          resolve(true);
+        }
+
+      });
     });
   },
 
@@ -332,6 +341,25 @@ module.exports = {
       } catch (err) {
         console.log("[error][getsteemprofile]", err);
       }
+    })();
+  },
+  sendComment: function (parentAuthor, parentPermlink) {
+    parentAuthor = parentAuthor.substring(1);
+    (async function() {
+      var content = null;
+      try {
+        content = fs.readFileSync('comment.md', "utf8");
+      }
+      catch(e)
+      {
+        return console.log("Cannot comment publication, comment.md has not been created.");
+      }
+      content = content.replace(/\{weight\}/g, config.weightVote / 100).replace(/\{botname\}/g, config.voter);
+      let comment =  await steem.broadcast.commentAsync(wif, parentAuthor, parentPermlink, config.voter, permlink, "", content, "").then(() => console.log( "Comment sent")).catch(
+        (err) => {
+          console.log("Comment failed : ", err.message)
+        }
+      );
     })();
   }
 }

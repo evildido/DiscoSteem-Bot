@@ -11,22 +11,26 @@ bot.login(config.token);
 module.exports = {
   // Processing of data collected via the reaction event
   reaction: function (reaction, user, err) {
-    console.log("in reaction")
-    try {
-      if (reaction.emoji.name === config.checkEmoji) {
-        if (roleID.some((e) => { return e == user.id})) {
-          data = reaction.message.embeds[0].url
-          if (data.startsWith("https://")) {
-            data = data.split("/")
-            permlink = data.pop();
-            author = data.pop();
-            return postVote.upvote(author, permlink);
+      (async function() {
+      try {
+        if (reaction.emoji.name === config.checkEmoji) {
+          if (roleID.some((e) => { return e == user.id})) {
+            data = reaction.message.embeds[0].url
+            if (data.startsWith("https://")) {
+              data = data.split("/")
+              permlink = data.pop();
+              author = data.pop();
+              var upVoted = await postVote.upvote(author, permlink);
+              
+              if(config.comment && upVoted) postVote.sendComment(author, permlink)
+              return true;
+            }
           }
         }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
-    }
+    })();
   },
 
   // Returns the display of links for more information
