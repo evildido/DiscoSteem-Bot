@@ -88,3 +88,5 @@ bot.on("disconnect", function() {
 });
 
 bot.login(config.token);
+
+bot.on("error", (err) => console.log(err));
